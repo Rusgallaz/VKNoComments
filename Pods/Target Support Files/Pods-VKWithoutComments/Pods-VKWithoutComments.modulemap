@@ -1,0 +1,6 @@
+framework module Pods_VKWithoutComments {
+  umbrella header "Pods-VKWithoutComments-umbrella.h"
+
+  export *
+  module * { export * }
+}
