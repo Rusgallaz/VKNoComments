@@ -7,6 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		C179812D26D52500002DA4AF /* APIConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = C179812C26D52500002DA4AF /* APIConfiguration.swift */; };
+		C179812F26D525A3002DA4AF /* URLBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = C179812E26D525A3002DA4AF /* URLBuilder.swift */; };
+		C179813126D52CE5002DA4AF /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C179813026D52CE5002DA4AF /* NetworkManager.swift */; };
+		C179813326D53B5E002DA4AF /* DataFetcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = C179813226D53B5E002DA4AF /* DataFetcher.swift */; };
+		C179813726D53CDD002DA4AF /* GetFeedResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = C179813626D53CDD002DA4AF /* GetFeedResponse.swift */; };
 		C1944C5726D3B729006A31B7 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1944C5626D3B729006A31B7 /* AppDelegate.swift */; };
 		C1944C5926D3B729006A31B7 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1944C5826D3B729006A31B7 /* SceneDelegate.swift */; };
 		C1944C5B26D3B729006A31B7 /* AuthViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1944C5A26D3B729006A31B7 /* AuthViewController.swift */; };
@@ -22,6 +27,11 @@
 /* Begin PBXFileReference section */
 		042A6630127CB534237C846B /* Pods-VKWithoutComments.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-VKWithoutComments.release.xcconfig"; path = "Target Support Files/Pods-VKWithoutComments/Pods-VKWithoutComments.release.xcconfig"; sourceTree = "<group>"; };
 		AEEAC75A9810B2092D55D589 /* Pods_VKWithoutComments.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_VKWithoutComments.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		C179812C26D52500002DA4AF /* APIConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIConfiguration.swift; sourceTree = "<group>"; };
+		C179812E26D525A3002DA4AF /* URLBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLBuilder.swift; sourceTree = "<group>"; };
+		C179813026D52CE5002DA4AF /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
+		C179813226D53B5E002DA4AF /* DataFetcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataFetcher.swift; sourceTree = "<group>"; };
+		C179813626D53CDD002DA4AF /* GetFeedResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetFeedResponse.swift; sourceTree = "<group>"; };
 		C1944C5326D3B729006A31B7 /* VKWithoutComments.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = VKWithoutComments.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C1944C5626D3B729006A31B7 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C1944C5826D3B729006A31B7 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -65,6 +75,61 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		C179812826D523CD002DA4AF /* Auth */ = {
+			isa = PBXGroup;
+			children = (
+				C1C554FC26D3F30B0073995A /* Authentication.storyboard */,
+				C1944C5A26D3B729006A31B7 /* AuthViewController.swift */,
+				C1C554FA26D3EF760073995A /* AuthService.swift */,
+			);
+			path = Auth;
+			sourceTree = "<group>";
+		};
+		C179812926D52408002DA4AF /* Feed */ = {
+			isa = PBXGroup;
+			children = (
+				C1C554FE26D40D340073995A /* Feed.storyboard */,
+				C1C5550026D40D570073995A /* FeedViewController.swift */,
+			);
+			path = Feed;
+			sourceTree = "<group>";
+		};
+		C179812A26D52427002DA4AF /* Application */ = {
+			isa = PBXGroup;
+			children = (
+				C1944C5626D3B729006A31B7 /* AppDelegate.swift */,
+				C1944C5826D3B729006A31B7 /* SceneDelegate.swift */,
+			);
+			path = Application;
+			sourceTree = "<group>";
+		};
+		C179812B26D524C9002DA4AF /* Network */ = {
+			isa = PBXGroup;
+			children = (
+				C179813526D53CB8002DA4AF /* Responses */,
+				C179812C26D52500002DA4AF /* APIConfiguration.swift */,
+				C179812E26D525A3002DA4AF /* URLBuilder.swift */,
+				C179813026D52CE5002DA4AF /* NetworkManager.swift */,
+				C179813226D53B5E002DA4AF /* DataFetcher.swift */,
+			);
+			path = Network;
+			sourceTree = "<group>";
+		};
+		C179813426D53C6E002DA4AF /* Model */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		C179813526D53CB8002DA4AF /* Responses */ = {
+			isa = PBXGroup;
+			children = (
+				C179813626D53CDD002DA4AF /* GetFeedResponse.swift */,
+			);
+			path = Responses;
+			sourceTree = "<group>";
+		};
 		C1944C4A26D3B729006A31B7 = {
 			isa = PBXGroup;
 			children = (
@@ -86,14 +151,12 @@
 		C1944C5526D3B729006A31B7 /* VKWithoutComments */ = {
 			isa = PBXGroup;
 			children = (
-				C1944C5626D3B729006A31B7 /* AppDelegate.swift */,
-				C1944C5826D3B729006A31B7 /* SceneDelegate.swift */,
-				C1C554FA26D3EF760073995A /* AuthService.swift */,
-				C1944C5A26D3B729006A31B7 /* AuthViewController.swift */,
-				C1C5550026D40D570073995A /* FeedViewController.swift */,
+				C179813426D53C6E002DA4AF /* Model */,
+				C179812A26D52427002DA4AF /* Application */,
+				C179812B26D524C9002DA4AF /* Network */,
+				C179812926D52408002DA4AF /* Feed */,
+				C179812826D523CD002DA4AF /* Auth */,
 				C1944C5F26D3B72C006A31B7 /* Assets.xcassets */,
-				C1C554FE26D40D340073995A /* Feed.storyboard */,
-				C1C554FC26D3F30B0073995A /* Authentication.storyboard */,
 				C1944C6126D3B72C006A31B7 /* LaunchScreen.storyboard */,
 				C1944C6426D3B72C006A31B7 /* Info.plist */,
 			);
@@ -216,8 +279,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				C1944C5B26D3B729006A31B7 /* AuthViewController.swift in Sources */,
+				C179813726D53CDD002DA4AF /* GetFeedResponse.swift in Sources */,
+				C179812F26D525A3002DA4AF /* URLBuilder.swift in Sources */,
 				C1944C5726D3B729006A31B7 /* AppDelegate.swift in Sources */,
 				C1C5550126D40D570073995A /* FeedViewController.swift in Sources */,
+				C179813126D52CE5002DA4AF /* NetworkManager.swift in Sources */,
+				C179812D26D52500002DA4AF /* APIConfiguration.swift in Sources */,
+				C179813326D53B5E002DA4AF /* DataFetcher.swift in Sources */,
 				C1944C5926D3B729006A31B7 /* SceneDelegate.swift in Sources */,
 				C1C554FB26D3EF760073995A /* AuthService.swift in Sources */,
 			);

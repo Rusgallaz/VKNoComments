@@ -9,17 +9,14 @@ import UIKit
 
 class AuthViewController: UIViewController {
     
-    private var authService: AuthService!
-
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
-        authService = AuthServiceImpl()
-        authService.delegate = self
+        AuthService.shared.delegate = self
     }
     
     @IBAction func authPressed(_ sender: UIButton) {
-        authService.auth()
+        AuthService.shared.auth()
     }
 }
 
