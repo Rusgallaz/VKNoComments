@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import UIKit
 
 enum Feed {
     
@@ -26,7 +27,21 @@ enum Feed {
                 var postText: String
                 var likesCount: String
                 var viewsCount: String
+                var postImage: FeedCellPostImageViewModel?
+                var sizes: FeedCellSizes
             }
+            
+            struct FeedCellPostImage: FeedCellPostImageViewModel {
+                var url: String
+                var height: Int
+                var width: Int
+            }
+            
+            struct Sizes: FeedCellSizes {
+                var postSize: CGRect
+                var imageSize: CGRect
+            }
+            
             var feedCells: [FeedCell]
         }
     }

@@ -19,6 +19,7 @@
 		C179814226D652A9002DA4AF /* FeedModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = C179814126D652A9002DA4AF /* FeedModels.swift */; };
 		C179814526D68932002DA4AF /* ImageCacheService.swift in Sources */ = {isa = PBXBuildFile; fileRef = C179814426D68932002DA4AF /* ImageCacheService.swift */; };
 		C179814726D68DBE002DA4AF /* ChacheImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C179814626D68DBE002DA4AF /* ChacheImageView.swift */; };
+		C179814926D6CABB002DA4AF /* FeedCellSizesCalculator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C179814826D6CABB002DA4AF /* FeedCellSizesCalculator.swift */; };
 		C1944C5726D3B729006A31B7 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1944C5626D3B729006A31B7 /* AppDelegate.swift */; };
 		C1944C5926D3B729006A31B7 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1944C5826D3B729006A31B7 /* SceneDelegate.swift */; };
 		C1944C5B26D3B729006A31B7 /* AuthViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1944C5A26D3B729006A31B7 /* AuthViewController.swift */; };
@@ -46,6 +47,7 @@
 		C179814126D652A9002DA4AF /* FeedModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedModels.swift; sourceTree = "<group>"; };
 		C179814426D68932002DA4AF /* ImageCacheService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCacheService.swift; sourceTree = "<group>"; };
 		C179814626D68DBE002DA4AF /* ChacheImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChacheImageView.swift; sourceTree = "<group>"; };
+		C179814826D6CABB002DA4AF /* FeedCellSizesCalculator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedCellSizesCalculator.swift; sourceTree = "<group>"; };
 		C1944C5326D3B729006A31B7 /* VKWithoutComments.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = VKWithoutComments.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C1944C5626D3B729006A31B7 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C1944C5826D3B729006A31B7 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -153,6 +155,7 @@
 			children = (
 				C179813D26D63132002DA4AF /* FeedCell.xib */,
 				C179813F26D63172002DA4AF /* FeedCell.swift */,
+				C179814826D6CABB002DA4AF /* FeedCellSizesCalculator.swift */,
 			);
 			path = Cell;
 			sourceTree = "<group>";
@@ -319,6 +322,7 @@
 				C179814526D68932002DA4AF /* ImageCacheService.swift in Sources */,
 				C1944C5B26D3B729006A31B7 /* AuthViewController.swift in Sources */,
 				C179813726D53CDD002DA4AF /* GetFeedResponse.swift in Sources */,
+				C179814926D6CABB002DA4AF /* FeedCellSizesCalculator.swift in Sources */,
 				C179813926D56EEC002DA4AF /* FeedInteractor.swift in Sources */,
 				C179812F26D525A3002DA4AF /* URLBuilder.swift in Sources */,
 				C1944C5726D3B729006A31B7 /* AppDelegate.swift in Sources */,

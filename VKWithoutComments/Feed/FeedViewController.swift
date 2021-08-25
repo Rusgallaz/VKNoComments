@@ -22,7 +22,12 @@ class FeedViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupCleanSwiftComponents()
+        
         tableView.register(UINib(nibName: "FeedCell", bundle: nil), forCellReuseIdentifier: FeedCell.cellId)
+        tableView.separatorStyle = .none
+        tableView.backgroundColor = .clear
+        view.backgroundColor = .systemGroupedBackground
+        
         interactor?.fetchFeed(request: Feed.FetchFeed.Request())
     }
     

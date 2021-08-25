@@ -15,7 +15,6 @@ class ImageCacheService {
     
     func load(url: URL, completion: @escaping (UIImage) -> Void) {
         if let image = image(url: url) {
-            print("From cache")
             completion(image)
         }
         

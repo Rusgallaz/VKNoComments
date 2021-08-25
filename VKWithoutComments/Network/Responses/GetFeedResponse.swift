@@ -26,6 +26,7 @@ struct FeedItem: Decodable {
     let text: String?
     let likes: Likes?
     let views: Views?
+    let attachments: [Attachment]?
 }
 
 struct Likes: Decodable {
@@ -36,6 +37,45 @@ struct Likes: Decodable {
 
 struct Views: Decodable {
     let count: Int
+}
+
+// MARK: Attachments
+struct Attachment: Decodable {
+    let type: String
+    let photo: Photo?
+}
+
+struct Photo: Decodable {
+    struct Size: Decodable {
+        let type: String
+        let url: String
+        let width: Int
+        let height: Int
+    }
+    let sizes: [Size]
+    
+    var defaultHeight: Int {
+        defaultSize.height
+    }
+    
+    var defaultWidth: Int {
+        defaultSize.width
+    }
+    
+    var defaultUrl: String {
+        defaultSize.url
+    }
+    
+    private var defaultSize: Size {
+        if let size = sizes.first(where: { $0.type == "y"}) {
+            return size
+        } else if let size = sizes.last {
+            return size
+        }
+        
+        // Couldn't found any size, return stub
+        return Size(type: "Unknown type", url: "Unknown url", width: 0, height: 0)
+    }
 }
 
 //MARK: Profile/Group
