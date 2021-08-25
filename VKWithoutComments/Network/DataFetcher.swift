@@ -11,7 +11,7 @@ protocol DataFetcher {
     func fetchFeed(completion: @escaping (FeedResponse?) -> Void)
 }
 
-struct DataFetcherImpl: DataFetcher {
+struct NetworkDataFetcher: DataFetcher {
     
     private let networkManager: NetworkManager = NetworkManagerImpl()
     

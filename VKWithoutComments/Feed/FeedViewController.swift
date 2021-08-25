@@ -7,19 +7,61 @@
 
 import UIKit
 
-class FeedViewController: UIViewController {
+protocol FeedDisplayLogic: AnyObject {
+    func displayFetchedFeed(viewModel: Feed.FetchFeed.ViewModel)
+}
 
-    private let dataFetcher: DataFetcher = DataFetcherImpl()
+class FeedViewController: UIViewController {
+   
+    @IBOutlet var tableView: UITableView!
     
+    var interactor: FeedBusinessLogic?
+    
+    private var feedCells = [FeedCellViewModel]()
+        
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .blue
-        
-        dataFetcher.fetchFeed { response in
-            guard let response = response else { return }
-            response.items.forEach { print($0.text) }
-        }
-        // Do any additional setup after loading the view.
+        setupCleanSwiftComponents()
+        tableView.register(UINib(nibName: "FeedCell", bundle: nil), forCellReuseIdentifier: FeedCell.cellId)
+        interactor?.fetchFeed(request: Feed.FetchFeed.Request())
     }
+    
+    private func setupCleanSwiftComponents() {
+        let interactor = FeedInteractor()
+        let presenter = FeedPresenter()
+        self.interactor = interactor
+        interactor.presenter = presenter
+        presenter.viewController = self
+    }
+}
 
+// MARK: FeedDisplayLogic
+extension FeedViewController: FeedDisplayLogic {
+    func displayFetchedFeed(viewModel: Feed.FetchFeed.ViewModel) {
+        feedCells = viewModel.feedCells
+        tableView.reloadData()
+    }
+}
+
+// MARK: UITableViewDelegate
+extension FeedViewController: UITableViewDelegate {
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        260
+    }
+}
+
+// MARK: UITableViewDataSource
+extension FeedViewController: UITableViewDataSource {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        feedCells.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: FeedCell.cellId) as! FeedCell
+        cell.configure(viewModel: feedCells[indexPath.row])
+        return cell
+    }
+    
+    
 }
