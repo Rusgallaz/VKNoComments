@@ -20,7 +20,7 @@ class FeedCell: UITableViewCell {
     
     static let cellId = "FeedCellId"
 
-    @IBOutlet var IconImageView: UIImageView!
+    @IBOutlet var iconImageView: CacheImageView!
     @IBOutlet var nameLabel: UILabel!
     @IBOutlet var dateLabel: UILabel!
     @IBOutlet var postTextLabel: UILabel!
@@ -39,6 +39,7 @@ class FeedCell: UITableViewCell {
     }
     
     func configure(viewModel: FeedCellViewModel) {
+        iconImageView.set(url: viewModel.iconUrl)
         nameLabel.text = viewModel.name
         dateLabel.text = viewModel.date
         postTextLabel.text = viewModel.postText

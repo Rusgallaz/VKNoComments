@@ -18,7 +18,7 @@ class FeedInteractor: FeedBusinessLogic {
     
     func fetchFeed(request: Feed.FetchFeed.Request) {
         dataFetcher.fetchFeed { [weak self] feedResponse in
-            guard let feedResponse = feedResponse else { return }
+            guard let feedResponse = feedResponse else { print("Can't get feed response"); return }
             self?.presenter?.presentFetchedFeed(response: Feed.FetchFeed.Response(feedResponse: feedResponse))
         }
     }

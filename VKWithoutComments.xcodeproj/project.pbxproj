@@ -17,6 +17,8 @@
 		C179813E26D63132002DA4AF /* FeedCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = C179813D26D63132002DA4AF /* FeedCell.xib */; };
 		C179814026D63172002DA4AF /* FeedCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C179813F26D63172002DA4AF /* FeedCell.swift */; };
 		C179814226D652A9002DA4AF /* FeedModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = C179814126D652A9002DA4AF /* FeedModels.swift */; };
+		C179814526D68932002DA4AF /* ImageCacheService.swift in Sources */ = {isa = PBXBuildFile; fileRef = C179814426D68932002DA4AF /* ImageCacheService.swift */; };
+		C179814726D68DBE002DA4AF /* ChacheImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C179814626D68DBE002DA4AF /* ChacheImageView.swift */; };
 		C1944C5726D3B729006A31B7 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1944C5626D3B729006A31B7 /* AppDelegate.swift */; };
 		C1944C5926D3B729006A31B7 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1944C5826D3B729006A31B7 /* SceneDelegate.swift */; };
 		C1944C5B26D3B729006A31B7 /* AuthViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1944C5A26D3B729006A31B7 /* AuthViewController.swift */; };
@@ -42,6 +44,8 @@
 		C179813D26D63132002DA4AF /* FeedCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = FeedCell.xib; sourceTree = "<group>"; };
 		C179813F26D63172002DA4AF /* FeedCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedCell.swift; sourceTree = "<group>"; };
 		C179814126D652A9002DA4AF /* FeedModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedModels.swift; sourceTree = "<group>"; };
+		C179814426D68932002DA4AF /* ImageCacheService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCacheService.swift; sourceTree = "<group>"; };
+		C179814626D68DBE002DA4AF /* ChacheImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChacheImageView.swift; sourceTree = "<group>"; };
 		C1944C5326D3B729006A31B7 /* VKWithoutComments.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = VKWithoutComments.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C1944C5626D3B729006A31B7 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C1944C5826D3B729006A31B7 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -153,6 +157,15 @@
 			path = Cell;
 			sourceTree = "<group>";
 		};
+		C179814326D6891A002DA4AF /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				C179814426D68932002DA4AF /* ImageCacheService.swift */,
+				C179814626D68DBE002DA4AF /* ChacheImageView.swift */,
+			);
+			path = Helpers;
+			sourceTree = "<group>";
+		};
 		C1944C4A26D3B729006A31B7 = {
 			isa = PBXGroup;
 			children = (
@@ -174,6 +187,7 @@
 		C1944C5526D3B729006A31B7 /* VKWithoutComments */ = {
 			isa = PBXGroup;
 			children = (
+				C179814326D6891A002DA4AF /* Helpers */,
 				C179813426D53C6E002DA4AF /* Model */,
 				C179812A26D52427002DA4AF /* Application */,
 				C179812B26D524C9002DA4AF /* Network */,
@@ -302,6 +316,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C179814526D68932002DA4AF /* ImageCacheService.swift in Sources */,
 				C1944C5B26D3B729006A31B7 /* AuthViewController.swift in Sources */,
 				C179813726D53CDD002DA4AF /* GetFeedResponse.swift in Sources */,
 				C179813926D56EEC002DA4AF /* FeedInteractor.swift in Sources */,
@@ -311,6 +326,7 @@
 				C1C5550126D40D570073995A /* FeedViewController.swift in Sources */,
 				C179814226D652A9002DA4AF /* FeedModels.swift in Sources */,
 				C179813126D52CE5002DA4AF /* NetworkManager.swift in Sources */,
+				C179814726D68DBE002DA4AF /* ChacheImageView.swift in Sources */,
 				C179812D26D52500002DA4AF /* APIConfiguration.swift in Sources */,
 				C179813326D53B5E002DA4AF /* DataFetcher.swift in Sources */,
 				C1944C5926D3B729006A31B7 /* SceneDelegate.swift in Sources */,
