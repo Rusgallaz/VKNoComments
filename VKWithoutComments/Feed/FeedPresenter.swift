@@ -33,11 +33,11 @@ class FeedPresenter: FeedPresentationLogic {
         let imageUrl = source?.photoUrl ?? ""
         let name = source?.name ?? "Unknown"
         let date = getDate(feedItem: feedItem)
-        let postText = feedItem.text ?? ""
+        let postText = feedItem.text
         let likesCount = "\(feedItem.likes?.count ?? 0)"
         let viewsCount = "\(feedItem.views?.count ?? 0)"
         let postImage = getPostImage(feedItem: feedItem)
-        let sizes = getSizes(feedItem: feedItem)
+        let sizes = getSizes(postText: postText, postImage: postImage)
 
         return Feed.FetchFeed.ViewModel.FeedCell(iconUrl: imageUrl, name: name, date: date, postText: postText, likesCount: likesCount, viewsCount: viewsCount, postImage: postImage, sizes: sizes)
     }
@@ -59,7 +59,7 @@ class FeedPresenter: FeedPresentationLogic {
         }
     }
     
-    private func getSizes(feedItem: FeedItem) -> FeedCellSizes {
-        sizesCalculator.calculateSize()
+    private func getSizes(postText: String?, postImage: FeedCellPostImageViewModel?) -> FeedCellSizes {
+        sizesCalculator.calculateSize(postText: postText, postImage: postImage)
     }
 }

@@ -24,7 +24,7 @@ enum Feed {
                 var iconUrl: String
                 var name: String
                 var date: String
-                var postText: String
+                var postText: String?
                 var likesCount: String
                 var viewsCount: String
                 var postImage: FeedCellPostImageViewModel?
@@ -38,8 +38,9 @@ enum Feed {
             }
             
             struct Sizes: FeedCellSizes {
-                var postSize: CGRect
-                var imageSize: CGRect
+                var postSize: CGSize
+                var imageSize: CGSize
+                var cellHeight: CGFloat
             }
             
             var feedCells: [FeedCell]

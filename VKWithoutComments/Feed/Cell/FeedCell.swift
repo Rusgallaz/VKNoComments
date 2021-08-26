@@ -7,28 +7,6 @@
 
 import UIKit
 
-protocol FeedCellViewModel {
-    var iconUrl: String { get }
-    var name: String { get }
-    var date: String { get }
-    var postText: String { get }
-    var likesCount: String { get }
-    var viewsCount: String { get }
-    var postImage: FeedCellPostImageViewModel? { get }
-    var sizes: FeedCellSizes { get }
-}
-
-protocol FeedCellPostImageViewModel {
-    var url: String { get }
-    var height: Int { get }
-    var width: Int { get }
-}
-
-protocol FeedCellSizes {
-    var postSize: CGRect { get }
-    var imageSize: CGRect { get }
-}
-
 class FeedCell: UITableViewCell {
     
     static let cellId = "FeedCellId"
@@ -66,8 +44,7 @@ class FeedCell: UITableViewCell {
         likesCountLabel.text = viewModel.likesCount
         viewsCountLabel.text = viewModel.viewsCount
         
-        postTextLabel.frame = viewModel.sizes.postSize
-        postImageView.frame = viewModel.sizes.imageSize
+//        postTextLabel.frame = viewModel.sizes.postSize
         
         print(postTextLabel.frame)
         

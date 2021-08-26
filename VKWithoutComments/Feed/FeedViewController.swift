@@ -23,7 +23,7 @@ class FeedViewController: UIViewController {
         super.viewDidLoad()
         setupCleanSwiftComponents()
         
-        tableView.register(UINib(nibName: "FeedCell", bundle: nil), forCellReuseIdentifier: FeedCell.cellId)
+        tableView.register(FeedCellView.self, forCellReuseIdentifier: FeedCellView.reuseId)
         tableView.separatorStyle = .none
         tableView.backgroundColor = .clear
         view.backgroundColor = .systemGroupedBackground
@@ -52,7 +52,7 @@ extension FeedViewController: FeedDisplayLogic {
 extension FeedViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        260
+        feedCells[indexPath.row].sizes.cellHeight
     }
 }
 
@@ -63,7 +63,7 @@ extension FeedViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: FeedCell.cellId) as! FeedCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: FeedCellView.reuseId) as! FeedCellView
         cell.configure(viewModel: feedCells[indexPath.row])
         return cell
     }
