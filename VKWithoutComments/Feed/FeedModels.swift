@@ -10,6 +10,31 @@ import UIKit
 
 enum Feed {
     
+    struct FeedCell: FeedCellViewModel {
+        var postId: Int
+        var iconUrl: String
+        var name: String
+        var date: String
+        var postText: String?
+        var likesCount: String
+        var viewsCount: String
+        var postImage: FeedCellPostImageViewModel?
+        var sizes: FeedCellSizes
+    }
+    
+    struct FeedCellPostImage: FeedCellPostImageViewModel {
+        var url: String
+        var height: Int
+        var width: Int
+    }
+    
+    struct Sizes: FeedCellSizes {
+        var postSize: CGSize
+        var imageSize: CGSize
+        var moreButtonSize: CGSize
+        var cellHeight: CGFloat
+    }
+    
     enum FetchFeed {
         struct Request {
             
@@ -20,29 +45,19 @@ enum Feed {
         }
         
         struct ViewModel {
-            struct FeedCell: FeedCellViewModel {
-                var iconUrl: String
-                var name: String
-                var date: String
-                var postText: String?
-                var likesCount: String
-                var viewsCount: String
-                var postImage: FeedCellPostImageViewModel?
-                var sizes: FeedCellSizes
-            }
-            
-            struct FeedCellPostImage: FeedCellPostImageViewModel {
-                var url: String
-                var height: Int
-                var width: Int
-            }
-            
-            struct Sizes: FeedCellSizes {
-                var postSize: CGSize
-                var imageSize: CGSize
-                var cellHeight: CGFloat
-            }
-            
+            var feedCells: [FeedCell]
+        }
+    }
+    
+    enum ShowMore {
+        struct Request {
+            var postId: Int
+        }
+        struct Response {
+            var feedResponse: FeedResponse
+            var fullSizedPostIds: [Int]
+        }
+        struct ViewModel {
             var feedCells: [FeedCell]
         }
     }

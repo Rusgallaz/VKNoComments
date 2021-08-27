@@ -9,6 +9,7 @@ import Foundation
 
 protocol FeedPresentationLogic {
     func presentFetchedFeed(response: Feed.FetchFeed.Response)
+    func presentFullSizedPost(response: Feed.ShowMore.Response)
 }
 
 class FeedPresenter: FeedPresentationLogic {
@@ -27,8 +28,16 @@ class FeedPresenter: FeedPresentationLogic {
         viewController?.displayFetchedFeed(viewModel: Feed.FetchFeed.ViewModel(feedCells: viewModelCells))
     }
     
-    private func makeViewModelCell(feedItem: FeedItem, profiles: [Profile], groups: [Group]) -> Feed.FetchFeed.ViewModel.FeedCell {
+    func presentFullSizedPost(response: Feed.ShowMore.Response) {
+        let feed = response.feedResponse
+        let fullSizedPostIds = response.fullSizedPostIds
+        let viewModelCells = feed.items.map { makeViewModelCell(feedItem: $0, profiles: feed.profiles, groups: feed.groups, fullSizedPostIds: fullSizedPostIds) }
+        viewController?.displayFetchedFeed(viewModel: Feed.FetchFeed.ViewModel(feedCells: viewModelCells))
+    }
+    
+    private func makeViewModelCell(feedItem: FeedItem, profiles: [Profile], groups: [Group], fullSizedPostIds: [Int] = []) -> Feed.FeedCell {
         let source = getSource(for: feedItem, in: profiles + groups)
+        let isFullSizedPost = fullSizedPostIds.contains{ $0 == feedItem.postId }
         
         let imageUrl = source?.photoUrl ?? ""
         let name = source?.name ?? "Unknown"
@@ -37,9 +46,9 @@ class FeedPresenter: FeedPresentationLogic {
         let likesCount = "\(feedItem.likes?.count ?? 0)"
         let viewsCount = "\(feedItem.views?.count ?? 0)"
         let postImage = getPostImage(feedItem: feedItem)
-        let sizes = getSizes(postText: postText, postImage: postImage)
+        let sizes = getSizes(postText: postText, postImage: postImage, isFullSizedPost: isFullSizedPost)
 
-        return Feed.FetchFeed.ViewModel.FeedCell(iconUrl: imageUrl, name: name, date: date, postText: postText, likesCount: likesCount, viewsCount: viewsCount, postImage: postImage, sizes: sizes)
+        return Feed.FeedCell(postId: feedItem.postId, iconUrl: imageUrl, name: name, date: date, postText: postText, likesCount: likesCount, viewsCount: viewsCount, postImage: postImage, sizes: sizes)
     }
     
     private func getDate(feedItem: FeedItem) -> String {
@@ -53,13 +62,13 @@ class FeedPresenter: FeedPresentationLogic {
     
     private func getPostImage(feedItem: FeedItem) -> FeedCellPostImageViewModel? {
         if let attachmentPhoto = feedItem.attachments?.first(where: { $0.type == "photo" }), let photo = attachmentPhoto.photo {
-            return Feed.FetchFeed.ViewModel.FeedCellPostImage(url: photo.defaultUrl, height: photo.defaultHeight, width: photo.defaultWidth)
+            return Feed.FeedCellPostImage(url: photo.defaultUrl, height: photo.defaultHeight, width: photo.defaultWidth)
         } else {
             return nil
         }
     }
     
-    private func getSizes(postText: String?, postImage: FeedCellPostImageViewModel?) -> FeedCellSizes {
-        sizesCalculator.calculateSize(postText: postText, postImage: postImage)
+    private func getSizes(postText: String?, postImage: FeedCellPostImageViewModel?, isFullSizedPost: Bool) -> FeedCellSizes {
+        sizesCalculator.calculateSize(postText: postText, postImage: postImage, isFullSizedPost: isFullSizedPost)
     }
 }

@@ -48,6 +48,13 @@ struct FeedCellConstraints {
         static let bottomMargin = defaultMargin
     }
     
+    struct MoreButton {
+        static let topMargin = defaultMargin
+        static let leadingMargin = PostText.leadingMargin
+        static let trailingMargin = PostText.trailingMargin
+        static let height: CGFloat = 20
+    }
+    
     struct PostImage {
         static let leadingMargin = defaultMargin
         static let trailingMargin = defaultMargin
@@ -56,18 +63,18 @@ struct FeedCellConstraints {
     
     struct Footer {
         struct Likes {
-            static let imageLeadingMargin: CGFloat = 4
-            static let imageHeight = Footer.height - imageLeadingMargin * 2
+            static let imageLeadingMargin = defaultMargin
+            static let imageHeight = Footer.height * 0.5
             static let imageWidth = imageHeight
             
             static let textLeadingMargin: CGFloat = 2
         }
         
         struct Views {
-            static let textTrailingMargin: CGFloat = 4
+            static let textTrailingMargin = defaultMargin
 
             static let imageTrailingMargin: CGFloat = 2
-            static let imageHeight = Footer.height - textTrailingMargin * 2
+            static let imageHeight = Footer.height * 0.5
             static let imageWidth = imageHeight * 1.5
         }
         
@@ -79,5 +86,14 @@ struct FeedCellConstraints {
 }
 
 struct FeedCellFont {
+    static let nameLabelFont = UIFont.systemFont(ofSize: 16, weight: .semibold)
+    static let dateLabelFont = UIFont.systemFont(ofSize: 12, weight: .regular)
     static let postLabelFont = UIFont.systemFont(ofSize: 15)
+    static let moreButtonFont = UIFont.systemFont(ofSize: 15, weight: .medium)
+    static let bottomViewFont = UIFont.systemFont(ofSize: 14, weight: .light)
+}
+
+struct FeedCellConstants {
+    static let maxLinesFullPost = 8
+    static let linesCountMinimizedPost = 6
 }

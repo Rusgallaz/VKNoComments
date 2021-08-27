@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import UIKit
 
 protocol FeedCellViewModel {
     var iconUrl: String { get }
@@ -27,5 +28,10 @@ protocol FeedCellPostImageViewModel {
 protocol FeedCellSizes {
     var postSize: CGSize { get }
     var imageSize: CGSize { get }
+    var moreButtonSize: CGSize { get }
     var cellHeight: CGFloat { get }
+}
+
+protocol FeedCellDelegate: AnyObject {
+    func moreButtonPressedInCell(_ cell: FeedCellView)
 }

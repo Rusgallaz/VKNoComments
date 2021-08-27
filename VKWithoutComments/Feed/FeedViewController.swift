@@ -17,7 +17,7 @@ class FeedViewController: UIViewController {
     
     var interactor: FeedBusinessLogic?
     
-    private var feedCells = [FeedCellViewModel]()
+    private var feedCells = [Feed.FeedCell]()
         
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -54,6 +54,10 @@ extension FeedViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         feedCells[indexPath.row].sizes.cellHeight
     }
+    
+    func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
+        feedCells[indexPath.row].sizes.cellHeight
+    }
 }
 
 // MARK: UITableViewDataSource
@@ -65,8 +69,17 @@ extension FeedViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: FeedCellView.reuseId) as! FeedCellView
         cell.configure(viewModel: feedCells[indexPath.row])
+        cell.delegate = self
         return cell
     }
+}
+
+//MARK: FeedCellDelegate
+extension FeedViewController: FeedCellDelegate {
     
-    
+    func moreButtonPressedInCell(_ cell: FeedCellView) {
+        guard let indexPath = tableView.indexPath(for: cell) else { return }
+        let feedCell = feedCells[indexPath.row]
+        interactor?.showMoreText(request: Feed.ShowMore.Request(postId: feedCell.postId))
+    }
 }

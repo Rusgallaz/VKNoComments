@@ -12,6 +12,9 @@ class FeedCellView: UITableViewCell {
     
     static let reuseId = "FeedCellView_ID"
     
+    weak var delegate: FeedCellDelegate?
+    
+    // MARK: UI elements
     let cardView: UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -28,7 +31,7 @@ class FeedCellView: UITableViewCell {
     let iconImageView: CacheImageView = {
         let image = CacheImageView()
         image.translatesAutoresizingMaskIntoConstraints = false
-        image.layer.cornerRadius = image.layer.frame.height / 2
+        image.layer.cornerRadius = FeedCellConstraints.Header.IconImage.height / 2
         image.clipsToBounds = true
         return image
     }()
@@ -36,12 +39,15 @@ class FeedCellView: UITableViewCell {
     let nameLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
+        label.font = FeedCellFont.nameLabelFont
         return label
     }()
     
     let dateLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
+        label.font = FeedCellFont.dateLabelFont
+        label.textColor = .secondaryLabel
         return label
     }()
     
@@ -52,6 +58,19 @@ class FeedCellView: UITableViewCell {
         label.numberOfLines = 0
         label.font = FeedCellFont.postLabelFont
         return label
+    }()
+    
+    var moreButtonHeightConstraint: NSLayoutConstraint?
+    let moreButton: UIButton = {
+        let button = UIButton()
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.titleLabel?.font = FeedCellFont.moreButtonFont
+        button.setTitleColor(.blue, for: .normal)
+        button.contentVerticalAlignment = .center
+        button.contentHorizontalAlignment = .leading
+        button.setTitle("Show more...", for: .normal)
+        button.clipsToBounds = true
+        return button
     }()
     
     var postImageHeightConstraint: NSLayoutConstraint?
@@ -77,12 +96,15 @@ class FeedCellView: UITableViewCell {
         let image = UIImageView()
         image.translatesAutoresizingMaskIntoConstraints = false
         image.image = UIImage(systemName: "heart")
+        image.tintColor = .secondaryLabel
         return image
     }()
     
     let likesCountLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
+        label.font = FeedCellFont.bottomViewFont
+        label.textColor = .secondaryLabel
         return label
     }()
     
@@ -96,29 +118,39 @@ class FeedCellView: UITableViewCell {
         let image = UIImageView()
         image.translatesAutoresizingMaskIntoConstraints = false
         image.image = UIImage(systemName: "eye")
+        image.tintColor = .secondaryLabel
         return image
     }()
     
     let viewsCountLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = "54K"
+        label.font = FeedCellFont.bottomViewFont
+        label.textColor = .secondaryLabel
         return label
     }()
     
+    //MARK: Configuration
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         setupLayout()
         backgroundColor = .clear
         selectionStyle = .none
+        moreButton.addTarget(self, action: #selector(moreButtonPressed), for: .touchUpInside)
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
     override func prepareForReuse() {
-        postImageHeightConstraint?.constant = 0
+        iconImageView.image = nil
+        postLabel.text = nil
         postImageView.image = nil
+
+        postLabelHeightConstraint?.constant = 0
+        postImageHeightConstraint?.constant = 0
+        moreButtonHeightConstraint?.constant = 0
     }
     
     func configure(viewModel: FeedCellViewModel) {
@@ -137,15 +169,21 @@ class FeedCellView: UITableViewCell {
             postImageHeightConstraint?.constant = viewModel.sizes.imageSize.height
             postImageView.set(url: photo.url)
         }
+        
+        if viewModel.sizes.moreButtonSize != .zero {
+            moreButtonHeightConstraint?.constant = viewModel.sizes.moreButtonSize.height
+        }
     }
     
+    // MARK: Setup layout
     private func setupLayout() {
-        addSubview(cardView)
+        self.contentView.addSubview(cardView)
         cardView.fillSuperview(padding: FeedCellConstraints.Card.insets)
         
         setupHeaderLayout()
         setupFooterLayout()
         setupPostLabelLayout()
+        setupMoreButtonLayout()
         setupPostImageLayout()
     }
     
@@ -185,8 +223,18 @@ class FeedCellView: UITableViewCell {
         postLabel.leadingAnchor.constraint(equalTo: cardView.leadingAnchor, constant: FeedCellConstraints.PostText.leadingMargin).isActive = true
         postLabel.trailingAnchor.constraint(equalTo: cardView.trailingAnchor, constant: -FeedCellConstraints.PostText.trailingMargin).isActive = true
         
-        postLabelHeightConstraint = postLabel.heightAnchor.constraint(equalToConstant: 100)
+        postLabelHeightConstraint = postLabel.heightAnchor.constraint(equalToConstant: 0)
         postLabelHeightConstraint?.isActive = true
+    }
+    
+    private func setupMoreButtonLayout() {
+        cardView.addSubview(moreButton)
+        moreButton.topAnchor.constraint(equalTo: postLabel.bottomAnchor, constant: FeedCellConstraints.MoreButton.topMargin).isActive = true
+        moreButton.leadingAnchor.constraint(equalTo: cardView.leadingAnchor, constant: FeedCellConstraints.MoreButton.leadingMargin).isActive = true
+        moreButton.trailingAnchor.constraint(equalTo: cardView.trailingAnchor, constant: -FeedCellConstraints.MoreButton.trailingMargin).isActive = true
+        
+        moreButtonHeightConstraint = moreButton.heightAnchor.constraint(equalToConstant: 0)
+        moreButtonHeightConstraint?.isActive = true
     }
     
     private func setupPostImageLayout() {
@@ -195,7 +243,7 @@ class FeedCellView: UITableViewCell {
         postImageView.leadingAnchor.constraint(equalTo: cardView.leadingAnchor, constant: FeedCellConstraints.PostImage.leadingMargin).isActive = true
         postImageView.trailingAnchor.constraint(equalTo: cardView.trailingAnchor, constant: -FeedCellConstraints.PostImage.trailingMargin).isActive = true
         
-        postImageHeightConstraint = postImageView.heightAnchor.constraint(equalToConstant: 1)
+        postImageHeightConstraint = postImageView.heightAnchor.constraint(equalToConstant: 0)
         postImageHeightConstraint?.isActive = true
     }
     
@@ -239,5 +287,10 @@ class FeedCellView: UITableViewCell {
 
         viewsCountLabel.centerYAnchor.constraint(equalTo: viewsView.centerYAnchor).isActive = true
         viewsCountLabel.trailingAnchor.constraint(equalTo: viewsView.trailingAnchor, constant: -FeedCellConstraints.Footer.Views.textTrailingMargin).isActive = true
+    }
+    
+    //MARK: Actions
+    @objc func moreButtonPressed() {
+        delegate?.moreButtonPressedInCell(self)
     }
 }
