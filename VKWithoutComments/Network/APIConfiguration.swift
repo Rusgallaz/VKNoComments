@@ -11,6 +11,7 @@ struct APIConfiguration {
     
     enum Methods: String {
         case feedGet = "/method/newsfeed.get"
+        case usersGet = "/method/users.get"
     }
     
     static let scheme = "https"

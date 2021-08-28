@@ -9,6 +9,7 @@ import Foundation
 
 protocol FeedPresentationLogic {
     func presentFetchedFeed(response: Feed.FetchFeed.Response)
+    func presentFetchedUser(response: Feed.FetchUser.Response)
     func presentFullSizedPost(response: Feed.ShowMore.Response)
 }
 
@@ -26,6 +27,12 @@ class FeedPresenter: FeedPresentationLogic {
         let feed = response.feedResponse
         let viewModelCells = feed.items.map { makeViewModelCell(feedItem: $0, profiles: feed.profiles, groups: feed.groups) }
         viewController?.displayFetchedFeed(viewModel: Feed.FetchFeed.ViewModel(feedCells: viewModelCells))
+    }
+    
+    func presentFetchedUser(response: Feed.FetchUser.Response) {
+        let user = response.userResponse
+        let headerViewViewModel = Feed.FetchUser.ViewModel.HeaderView(avatarUrl: user.photo100 ?? "")
+        viewController?.displayFetchedUser(viewModel: Feed.FetchUser.ViewModel(headerView: headerViewViewModel))
     }
     
     func presentFullSizedPost(response: Feed.ShowMore.Response) {

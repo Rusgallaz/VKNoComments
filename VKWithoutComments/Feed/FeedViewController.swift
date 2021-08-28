@@ -9,19 +9,22 @@ import UIKit
 
 protocol FeedDisplayLogic: AnyObject {
     func displayFetchedFeed(viewModel: Feed.FetchFeed.ViewModel)
+    func displayFetchedUser(viewModel: Feed.FetchUser.ViewModel)
 }
 
 class FeedViewController: UIViewController {
    
     @IBOutlet var tableView: UITableView!
+    private var headerView = HeaderView()
     
     var interactor: FeedBusinessLogic?
     
     private var feedCells = [Feed.FeedCell]()
-        
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupCleanSwiftComponents()
+        setupHeaderView()
         
         tableView.register(FeedCellView.self, forCellReuseIdentifier: FeedCellView.reuseId)
         tableView.separatorStyle = .none
@@ -29,6 +32,7 @@ class FeedViewController: UIViewController {
         view.backgroundColor = .systemGroupedBackground
         
         interactor?.fetchFeed(request: Feed.FetchFeed.Request())
+        interactor?.fetchUser(request: Feed.FetchUser.Request())
     }
     
     private func setupCleanSwiftComponents() {
@@ -38,6 +42,12 @@ class FeedViewController: UIViewController {
         interactor.presenter = presenter
         presenter.viewController = self
     }
+    
+    private func setupHeaderView() {
+        navigationController?.hidesBarsOnSwipe = true
+        navigationController?.navigationBar.shadowImage = UIImage()
+        navigationItem.titleView = headerView
+    }
 }
 
 // MARK: FeedDisplayLogic
@@ -45,6 +55,10 @@ extension FeedViewController: FeedDisplayLogic {
     func displayFetchedFeed(viewModel: Feed.FetchFeed.ViewModel) {
         feedCells = viewModel.feedCells
         tableView.reloadData()
+    }
+    
+    func displayFetchedUser(viewModel: Feed.FetchUser.ViewModel) {
+        headerView.set(viewModel: viewModel.headerView)
     }
 }
 

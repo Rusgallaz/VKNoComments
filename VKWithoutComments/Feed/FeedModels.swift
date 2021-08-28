@@ -61,4 +61,21 @@ enum Feed {
             var feedCells: [FeedCell]
         }
     }
+    
+    enum FetchUser {
+        struct Request {
+            
+        }
+        
+        struct Response {
+            var userResponse: UserResponse
+        }
+        
+        struct ViewModel {
+            struct HeaderView: HeaderViewViewModel {
+                var avatarUrl: String
+            }
+            var headerView: HeaderView
+        }
+    }
 }

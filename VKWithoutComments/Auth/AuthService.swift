@@ -12,6 +12,7 @@ import VK_ios_sdk
 protocol AuthServiceProtocol: AnyObject {
     var delegate: AuthServiceDelegate? { get set }
     var accessToken: String? { get }
+    var userId: String? { get }
     func auth()
 }
 
@@ -28,6 +29,10 @@ class AuthService: NSObject, AuthServiceProtocol {
     weak var delegate: AuthServiceDelegate?
     var accessToken: String? {
         return VKSdk.accessToken().accessToken
+    }
+    
+    var userId: String? {
+        return VKSdk.accessToken().userId
     }
     
     private let appId = "7933654"
