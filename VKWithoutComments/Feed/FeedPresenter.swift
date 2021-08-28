@@ -50,8 +50,8 @@ class FeedPresenter: FeedPresentationLogic {
         let name = source?.name ?? "Unknown"
         let date = getDate(feedItem: feedItem)
         let postText = feedItem.text
-        let likesCount = "\(feedItem.likes?.count ?? 0)"
-        let viewsCount = "\(feedItem.views?.count ?? 0)"
+        let likesCount = getFormattedCount(count: feedItem.likes?.count)
+        let viewsCount = getFormattedCount(count: feedItem.views?.count)
         let postImages = getPostImages(feedItem: feedItem)
         let sizes = getSizes(postText: postText, postImages: postImages, isFullSizedPost: isFullSizedPost)
 
@@ -86,5 +86,17 @@ class FeedPresenter: FeedPresentationLogic {
     
     private func getSizes(postText: String?, postImages: [FeedCellPostImageViewModel], isFullSizedPost: Bool) -> FeedCellSizes {
         sizesCalculator.calculateSize(postText: postText, postImages: postImages, isFullSizedPost: isFullSizedPost)
+    }
+    
+    private func getFormattedCount(count: Int?) -> String {
+        let count = String(count ?? 0)
+        switch count.count {
+        case 4...6:
+            return count.dropLast(3) + "K"
+        case 6...:
+            return count.dropLast(6) + "M"
+        default:
+            return count
+        }
     }
 }

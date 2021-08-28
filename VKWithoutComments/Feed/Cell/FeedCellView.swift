@@ -52,12 +52,19 @@ class FeedCellView: UITableViewCell {
     }()
     
     private var postLabelHeightConstraint: NSLayoutConstraint?
-    private let postLabel: UILabel = {
-        let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.numberOfLines = 0
-        label.font = FeedCellFont.postLabelFont
-        return label
+    private let postLabel: UITextView = {
+        let textView = UITextView()
+        textView.translatesAutoresizingMaskIntoConstraints = false
+        textView.font = FeedCellFont.postLabelFont
+        textView.isScrollEnabled = false
+        textView.isEditable = false
+        textView.isSelectable = true
+        textView.isUserInteractionEnabled = true
+        textView.dataDetectorTypes = .all
+        
+        let padding = textView.textContainer.lineFragmentPadding
+        textView.textContainerInset = UIEdgeInsets(top: 0, left: -padding, bottom: 0, right: -padding)
+        return textView
     }()
     
     private var moreButtonHeightConstraint: NSLayoutConstraint?

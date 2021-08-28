@@ -15,21 +15,22 @@ protocol FeedDisplayLogic: AnyObject {
 class FeedViewController: UIViewController {
    
     @IBOutlet var tableView: UITableView!
-    private var headerView = HeaderView()
     
     var interactor: FeedBusinessLogic?
     
     private var feedCells = [Feed.FeedCell]()
+    private var headerView = HeaderView()
+    private var refreshControl: UIRefreshControl = {
+        let refreshControl = UIRefreshControl()
+        refreshControl.addTarget(self, action: #selector(refresh), for: .valueChanged)
+        return refreshControl
+    }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         setupCleanSwiftComponents()
         setupHeaderView()
-        
-        tableView.register(FeedCellView.self, forCellReuseIdentifier: FeedCellView.reuseId)
-        tableView.separatorStyle = .none
-        tableView.backgroundColor = .clear
-        view.backgroundColor = .systemGroupedBackground
+        setupTableView()
         
         interactor?.fetchFeed(request: Feed.FetchFeed.Request())
         interactor?.fetchUser(request: Feed.FetchUser.Request())
@@ -43,10 +44,23 @@ class FeedViewController: UIViewController {
         presenter.viewController = self
     }
     
+    private func setupTableView() {
+        tableView.register(FeedCellView.self, forCellReuseIdentifier: FeedCellView.reuseId)
+        tableView.separatorStyle = .none
+        tableView.backgroundColor = .clear
+        view.backgroundColor = .systemGroupedBackground
+        
+        tableView.addSubview(refreshControl)
+    }
+    
     private func setupHeaderView() {
         navigationController?.hidesBarsOnSwipe = true
         navigationController?.navigationBar.shadowImage = UIImage()
         navigationItem.titleView = headerView
+    }
+    
+    @objc private func refresh() {
+        interactor?.fetchFeed(request: Feed.FetchFeed.Request())
     }
 }
 
@@ -55,6 +69,7 @@ extension FeedViewController: FeedDisplayLogic {
     func displayFetchedFeed(viewModel: Feed.FetchFeed.ViewModel) {
         feedCells = viewModel.feedCells
         tableView.reloadData()
+        refreshControl.endRefreshing()
     }
     
     func displayFetchedUser(viewModel: Feed.FetchUser.ViewModel) {
