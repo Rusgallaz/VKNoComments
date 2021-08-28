@@ -18,7 +18,7 @@ enum Feed {
         var postText: String?
         var likesCount: String
         var viewsCount: String
-        var postImage: FeedCellPostImageViewModel?
+        var postImages: [FeedCellPostImageViewModel]
         var sizes: FeedCellSizes
     }
     

@@ -56,8 +56,8 @@ struct FeedCellConstraints {
     }
     
     struct PostImage {
-        static let leadingMargin = defaultMargin
-        static let trailingMargin = defaultMargin
+        static let leadingMargin: CGFloat = 0
+        static let trailingMargin: CGFloat = 0
         static let bottomMargin = defaultMargin
     }
     

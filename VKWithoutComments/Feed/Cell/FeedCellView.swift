@@ -13,22 +13,22 @@ class FeedCellView: UITableViewCell {
     static let reuseId = "FeedCellView_ID"
     
     weak var delegate: FeedCellDelegate?
-    
+        
     // MARK: UI elements
-    let cardView: UIView = {
+    private let cardView: UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
         view.backgroundColor = .white
         return view
     }()
     
-    let headerView: UIView = {
+    private let headerView: UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
     
-    let iconImageView: CacheImageView = {
+    private let iconImageView: CacheImageView = {
         let image = CacheImageView()
         image.translatesAutoresizingMaskIntoConstraints = false
         image.layer.cornerRadius = FeedCellConstraints.Header.IconImage.height / 2
@@ -36,14 +36,14 @@ class FeedCellView: UITableViewCell {
         return image
     }()
     
-    let nameLabel: UILabel = {
+    private let nameLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = FeedCellFont.nameLabelFont
         return label
     }()
     
-    let dateLabel: UILabel = {
+    private let dateLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = FeedCellFont.dateLabelFont
@@ -51,8 +51,8 @@ class FeedCellView: UITableViewCell {
         return label
     }()
     
-    var postLabelHeightConstraint: NSLayoutConstraint?
-    let postLabel: UILabel = {
+    private var postLabelHeightConstraint: NSLayoutConstraint?
+    private let postLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.numberOfLines = 0
@@ -60,8 +60,8 @@ class FeedCellView: UITableViewCell {
         return label
     }()
     
-    var moreButtonHeightConstraint: NSLayoutConstraint?
-    let moreButton: UIButton = {
+    private var moreButtonHeightConstraint: NSLayoutConstraint?
+    private let moreButton: UIButton = {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
         button.titleLabel?.font = FeedCellFont.moreButtonFont
@@ -73,26 +73,26 @@ class FeedCellView: UITableViewCell {
         return button
     }()
     
-    var postImageHeightConstraint: NSLayoutConstraint?
-    let postImageView: CacheImageView = {
-        let imageView = CacheImageView()
-        imageView.translatesAutoresizingMaskIntoConstraints = false
-        return imageView
+    private var photoCollectionViewHeightConstraint: NSLayoutConstraint?
+    private let photoCollectionView: PhotoCollectionView = {
+        let view = PhotoCollectionView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
     }()
     
-    let footerView: UIView = {
+    private let footerView: UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
     
-    let likesView: UIView = {
+    private let likesView: UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
     
-    let likesImageView: UIImageView = {
+    private let likesImageView: UIImageView = {
         let image = UIImageView()
         image.translatesAutoresizingMaskIntoConstraints = false
         image.image = UIImage(systemName: "heart")
@@ -100,7 +100,7 @@ class FeedCellView: UITableViewCell {
         return image
     }()
     
-    let likesCountLabel: UILabel = {
+    private let likesCountLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = FeedCellFont.bottomViewFont
@@ -108,13 +108,13 @@ class FeedCellView: UITableViewCell {
         return label
     }()
     
-    let viewsView: UIView = {
+    private let viewsView: UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
     
-    let viewsImageView: UIImageView = {
+    private let viewsImageView: UIImageView = {
         let image = UIImageView()
         image.translatesAutoresizingMaskIntoConstraints = false
         image.image = UIImage(systemName: "eye")
@@ -122,7 +122,7 @@ class FeedCellView: UITableViewCell {
         return image
     }()
     
-    let viewsCountLabel: UILabel = {
+    private let viewsCountLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = FeedCellFont.bottomViewFont
@@ -146,10 +146,9 @@ class FeedCellView: UITableViewCell {
     override func prepareForReuse() {
         iconImageView.image = nil
         postLabel.text = nil
-        postImageView.image = nil
 
         postLabelHeightConstraint?.constant = 0
-        postImageHeightConstraint?.constant = 0
+        photoCollectionViewHeightConstraint?.constant = 0
         moreButtonHeightConstraint?.constant = 0
     }
     
@@ -164,10 +163,10 @@ class FeedCellView: UITableViewCell {
             postLabelHeightConstraint?.constant = viewModel.sizes.postSize.height
             postLabel.text = postText
         }
-
-        if let photo = viewModel.postImage {
-            postImageHeightConstraint?.constant = viewModel.sizes.imageSize.height
-            postImageView.set(url: photo.url)
+        
+        if !viewModel.postImages.isEmpty {
+            photoCollectionViewHeightConstraint?.constant = viewModel.sizes.imageSize.height
+            photoCollectionView.set(viewModel.postImages)
         }
         
         if viewModel.sizes.moreButtonSize != .zero {
@@ -184,7 +183,7 @@ class FeedCellView: UITableViewCell {
         setupFooterLayout()
         setupPostLabelLayout()
         setupMoreButtonLayout()
-        setupPostImageLayout()
+        setupPhotoCollectionViewLayout()
     }
     
     private func setupHeaderLayout() {
@@ -237,14 +236,14 @@ class FeedCellView: UITableViewCell {
         moreButtonHeightConstraint?.isActive = true
     }
     
-    private func setupPostImageLayout() {
-        cardView.addSubview(postImageView)
-        postImageView.bottomAnchor.constraint(equalTo: footerView.topAnchor, constant: -FeedCellConstraints.PostImage.bottomMargin).isActive = true
-        postImageView.leadingAnchor.constraint(equalTo: cardView.leadingAnchor, constant: FeedCellConstraints.PostImage.leadingMargin).isActive = true
-        postImageView.trailingAnchor.constraint(equalTo: cardView.trailingAnchor, constant: -FeedCellConstraints.PostImage.trailingMargin).isActive = true
+    private func setupPhotoCollectionViewLayout() {
+        cardView.addSubview(photoCollectionView)
+        photoCollectionView.bottomAnchor.constraint(equalTo: footerView.topAnchor, constant: -FeedCellConstraints.PostImage.bottomMargin).isActive = true
+        photoCollectionView.leadingAnchor.constraint(equalTo: cardView.leadingAnchor, constant: FeedCellConstraints.PostImage.leadingMargin).isActive = true
+        photoCollectionView.trailingAnchor.constraint(equalTo: cardView.trailingAnchor, constant: -FeedCellConstraints.PostImage.trailingMargin).isActive = true
         
-        postImageHeightConstraint = postImageView.heightAnchor.constraint(equalToConstant: 0)
-        postImageHeightConstraint?.isActive = true
+        photoCollectionViewHeightConstraint = photoCollectionView.heightAnchor.constraint(equalToConstant: 0)
+        photoCollectionViewHeightConstraint?.isActive = true
     }
     
     private func setupFooterLayout() {

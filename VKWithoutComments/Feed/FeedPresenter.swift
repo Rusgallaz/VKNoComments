@@ -45,10 +45,18 @@ class FeedPresenter: FeedPresentationLogic {
         let postText = feedItem.text
         let likesCount = "\(feedItem.likes?.count ?? 0)"
         let viewsCount = "\(feedItem.views?.count ?? 0)"
-        let postImage = getPostImage(feedItem: feedItem)
-        let sizes = getSizes(postText: postText, postImage: postImage, isFullSizedPost: isFullSizedPost)
+        let postImages = getPostImages(feedItem: feedItem)
+        let sizes = getSizes(postText: postText, postImages: postImages, isFullSizedPost: isFullSizedPost)
 
-        return Feed.FeedCell(postId: feedItem.postId, iconUrl: imageUrl, name: name, date: date, postText: postText, likesCount: likesCount, viewsCount: viewsCount, postImage: postImage, sizes: sizes)
+        return Feed.FeedCell(postId: feedItem.postId,
+                             iconUrl: imageUrl,
+                             name: name,
+                             date: date,
+                             postText: postText,
+                             likesCount: likesCount,
+                             viewsCount: viewsCount,
+                             postImages: postImages,
+                             sizes: sizes)
     }
     
     private func getDate(feedItem: FeedItem) -> String {
@@ -60,15 +68,16 @@ class FeedPresenter: FeedPresentationLogic {
         source.first{ abs(feedItem.sourceId) == $0.id }
     }
     
-    private func getPostImage(feedItem: FeedItem) -> FeedCellPostImageViewModel? {
-        if let attachmentPhoto = feedItem.attachments?.first(where: { $0.type == "photo" }), let photo = attachmentPhoto.photo {
+    private func getPostImages(feedItem: FeedItem) -> [FeedCellPostImageViewModel] {
+        guard let attachments = feedItem.attachments else { return [] }
+        let photos = attachments.compactMap { attachment -> Feed.FeedCellPostImage? in
+            guard let photo = attachment.photo else { return nil }
             return Feed.FeedCellPostImage(url: photo.defaultUrl, height: photo.defaultHeight, width: photo.defaultWidth)
-        } else {
-            return nil
         }
+        return photos
     }
     
-    private func getSizes(postText: String?, postImage: FeedCellPostImageViewModel?, isFullSizedPost: Bool) -> FeedCellSizes {
-        sizesCalculator.calculateSize(postText: postText, postImage: postImage, isFullSizedPost: isFullSizedPost)
+    private func getSizes(postText: String?, postImages: [FeedCellPostImageViewModel], isFullSizedPost: Bool) -> FeedCellSizes {
+        sizesCalculator.calculateSize(postText: postText, postImages: postImages, isFullSizedPost: isFullSizedPost)
     }
 }

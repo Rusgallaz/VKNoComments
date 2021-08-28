@@ -15,7 +15,7 @@ protocol FeedCellViewModel {
     var postText: String? { get }
     var likesCount: String { get }
     var viewsCount: String { get }
-    var postImage: FeedCellPostImageViewModel? { get }
+    var postImages: [FeedCellPostImageViewModel] { get }
     var sizes: FeedCellSizes { get }
 }
 

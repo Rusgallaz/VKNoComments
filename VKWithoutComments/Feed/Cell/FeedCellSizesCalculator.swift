@@ -9,7 +9,7 @@ import Foundation
 import UIKit
 
 protocol FeedCellSizesCalculator {
-    func calculateSize(postText: String?, postImage: FeedCellPostImageViewModel?, isFullSizedPost: Bool) -> FeedCellSizes
+    func calculateSize(postText: String?, postImages: [FeedCellPostImageViewModel], isFullSizedPost: Bool) -> FeedCellSizes
 }
 
 struct FeedCellSizesCalculatorImpl: FeedCellSizesCalculator {
@@ -17,15 +17,17 @@ struct FeedCellSizesCalculatorImpl: FeedCellSizesCalculator {
     private let screenWidth: CGFloat
     private let cardWidth: CGFloat
     
+    private let photoCollectionSizesCalculator: PhotoCollectionSizesCalculator = PhotoCollectionSizesCalculatorImpl()
+    
     init(screenWidth: CGFloat = min(UIScreen.main.bounds.width, UIScreen.main.bounds.height)) {
         self.screenWidth = screenWidth
         cardWidth = screenWidth - FeedCellConstraints.Card.insets.left - FeedCellConstraints.Card.insets.right
     }
     
-    func calculateSize(postText: String?, postImage: FeedCellPostImageViewModel?, isFullSizedPost: Bool) -> FeedCellSizes {
+    func calculateSize(postText: String?, postImages: [FeedCellPostImageViewModel], isFullSizedPost: Bool) -> FeedCellSizes {
         
         let (textSize, moreButtonSize) = calculatePostTextAndMoreButtonSizes(postText: postText, isFullSizedPost: isFullSizedPost)
-        let imageSize = calculatePostImageSize(postImage: postImage)
+        let imageSize = calculatePostImageSize(postImages: postImages)
         let cellHeight = calculateCellHeight(textSize: textSize, moreButtonSize: moreButtonSize, imageSize: imageSize)
         
         return Feed.Sizes(postSize: textSize, imageSize: imageSize, moreButtonSize: moreButtonSize, cellHeight: cellHeight)
@@ -52,14 +54,13 @@ struct FeedCellSizesCalculatorImpl: FeedCellSizesCalculator {
         return (postTextSize, moreButtonSize)
     }
     
-    private func calculatePostImageSize(postImage: FeedCellPostImageViewModel?) -> CGSize {
-        guard let postImage = postImage else { return .zero }
+    private func calculatePostImageSize(postImages: [FeedCellPostImageViewModel]) -> CGSize {
+        guard !postImages.isEmpty else { return .zero }
         
-        let imageHeight: Float = Float(postImage.height)
-        let imageWidth: Float = Float(postImage.width)
-        let imageRatio = CGFloat(imageHeight / imageWidth)
+        let photoSizes = postImages.map{ CGSize(width: $0.width, height: $0.height) }
+        let imageHeight = photoCollectionSizesCalculator.calculateLayoutHeight(superviewWidth: cardWidth, photoSizes: photoSizes)
         
-        return CGSize(width: cardWidth, height: cardWidth * imageRatio)
+        return CGSize(width: cardWidth, height: imageHeight)
     }
     
     private func calculateCellHeight(textSize: CGSize, moreButtonSize: CGSize, imageSize: CGSize) -> CGFloat {
